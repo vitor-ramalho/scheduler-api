@@ -32,38 +32,38 @@ describe('UsersController', () => {
   });
 
   it('should call findAll and return a list of users', async () => {
-    const result = [{ id: '1', name: 'Test User' }];
-    jest.spyOn(service, 'findAll').mockResolvedValue(result);
+    const result = [{ id: '1', email: 'test@example.com', firstName: 'Test', lastName: 'User', password: 'hashed', role: 'user', isActive: true }];
+    jest.spyOn(service, 'findAll').mockResolvedValue(result as any);
 
-    expect(await controller.findAll()).toBe(result);
+    expect(await controller.findAll('org-id')).toBe(result);
   });
 
   it('should call findOne and return a user', async () => {
-    const result = { id: '1', name: 'Test User' };
-    jest.spyOn(service, 'findOne').mockResolvedValue(result);
+    const result = { id: '1', email: 'test@example.com', firstName: 'Test', lastName: 'User', password: 'hashed', role: 'user', isActive: true };
+    jest.spyOn(service, 'findOne').mockResolvedValue(result as any);
 
-    expect(await controller.findOne('1')).toBe(result);
+    expect(await controller.findOne('1', 'org-id')).toBe(result);
   });
 
   it('should call create and return the created user', async () => {
-    const dto = { name: 'New User' };
+    const dto = { email: 'new@example.com', firstName: 'New', lastName: 'User', password: 'hashed', role: 'user' };
     const result = { id: '1', ...dto };
-    jest.spyOn(service, 'create').mockResolvedValue(result);
+    jest.spyOn(service, 'create').mockResolvedValue(result as any);
 
-    expect(await controller.create(dto)).toBe(result);
+    expect(await controller.create(dto, 'org-id')).toBe(result);
   });
 
   it('should call update and return the updated user', async () => {
-    const dto = { name: 'Updated User' };
-    const result = { id: '1', ...dto };
-    jest.spyOn(service, 'update').mockResolvedValue(result);
+    const dto = { firstName: 'Updated' };
+    const result = { id: '1', email: 'test@example.com', firstName: 'Updated', lastName: 'User', password: 'hashed', role: 'user', isActive: true };
+    jest.spyOn(service, 'update').mockResolvedValue(result as any);
 
-    expect(await controller.update('1', dto)).toBe(result);
+    expect(await controller.update('1', dto, 'org-id')).toBe(result);
   });
 
   it('should call remove and return undefined', async () => {
     jest.spyOn(service, 'remove').mockResolvedValue(undefined);
 
-    expect(await controller.remove('1')).toBeUndefined();
+    expect(await controller.remove('1', 'org-id')).toBeUndefined();
   });
 });

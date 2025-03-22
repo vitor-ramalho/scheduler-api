@@ -1,6 +1,8 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { Organization } from '../../organizations/entities/organization.entity';
+import { Schedule } from '../../scheduling/entities/schedule.entity';
+import { Appointment } from '../../scheduling/entities/appointment.entity';
 
 @Entity({ name: 'users' })
 export class User {
@@ -37,9 +39,15 @@ export class User {
   @JoinColumn({ name: 'organizationId' })
   organization: Organization;
 
+  @OneToMany(() => Schedule, (schedule) => schedule.user)
+  schedules: Schedule[];
+
+  @OneToMany(() => Appointment, (appointment) => appointment.user)
+  appointments: Appointment[];
+
   @CreateDateColumn()
   createdAt: Date;
 
   @UpdateDateColumn()
   updatedAt: Date;
-} 
+}

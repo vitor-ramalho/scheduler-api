@@ -1,5 +1,6 @@
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
+import { Client } from '../../clients/entities/client.entity';
 
 @Entity({ name: 'organizations' })
 export class Organization {
@@ -21,9 +22,12 @@ export class Organization {
   @OneToMany(() => User, (user) => user.organization)
   users: User[];
 
+  @OneToMany(() => Client, (client) => client.organization)
+  clients: Client[];
+
   @CreateDateColumn()
   createdAt: Date;
 
   @UpdateDateColumn()
   updatedAt: Date;
-} 
+}
